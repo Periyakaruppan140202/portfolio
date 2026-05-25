@@ -5,6 +5,7 @@ import { useRef, useState } from "react"
 import { personalInfo, technologies } from "@/lib/data"
 import { ArrowDown, Download, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { withBasePath } from "@/lib/utils"
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -81,7 +82,7 @@ export function HeroSection() {
                 variant="outline"
                 className="rounded-full px-8 h-12 text-base font-medium border-border bg-transparent hover:bg-white/10 hover:scale-105 hover:shadow-lg hover:border-white/20 active:scale-95 transition-all duration-200"
               >
-                <a href={personalInfo.resumeUrl} download="Periyakaruppan-Nagappan-Resume.pdf">
+                <a href={withBasePath(personalInfo.resumeUrl)} download="Periyakaruppan-Nagappan-Resume.pdf">
                   <Download className="mr-2 h-4 w-4" />
                   Download Resume
                 </a>
@@ -123,7 +124,7 @@ function FloatingProfileCard() {
           <div className="relative mx-auto mb-6 h-36 w-36 overflow-hidden rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-background bg-gradient-to-br from-primary/40 to-accent/40">
             {avatarOk ? (
               <img
-                src={personalInfo.avatar}
+                src={withBasePath(personalInfo.avatar)}
                 alt={personalInfo.name}
                 className="h-full w-full object-cover"
                 onError={() => setAvatarOk(false)}
