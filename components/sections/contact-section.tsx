@@ -1,14 +1,17 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import { SectionWrapper, SectionHeader, GlassCard } from "@/components/ui/glass-elements"
 import { personalInfo } from "@/lib/data"
-import { Mail, MapPin, Send, Github, Linkedin, Twitter, Youtube, ArrowUpRight } from "lucide-react"
+import { Mail, MapPin, Send, Github, Linkedin, Twitter, Youtube, ArrowUpRight, CheckCircle2, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useCompact } from "@/components/providers/compact-mode-provider"
 import { cn } from "@/lib/utils"
+
+// Set NEXT_PUBLIC_WEB3FORMS_KEY in .env.local — get a free key at https://web3forms.com
+const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || ""
 
 const socialLinks = [
   { icon: Github, href: personalInfo.social.github, label: "GitHub" },
@@ -20,17 +23,77 @@ const socialLinks = [
 export function ContactSection() {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const compact = useCompact()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setIsSubmitting(false)
-    setFormState({ name: "", email: "", message: "" })
+    setSubmitStatus("idle")
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+          from_name: "Portfolio Contact Form",
+          subject: `New message from ${formState.name}`,
+        }),
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        setSubmitStatus("success")
+        setFormState({ name: "", email: "", message: "" })
+      } else {
+        setSubmitStatus("error")
+      }
+    } catch {
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+      setTimeout(() => setSubmitStatus("idle"), 5000)
+    }
   }
 
   return (
+    <>
+      {/* Toast notification — fixed top center */}
+      <AnimatePresence>
+        {submitStatus !== "idle" && (
+          <motion.div
+            key="toast"
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -40 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-[100]"
+          >
+            <div
+              className={cn(
+                "flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium shadow-2xl backdrop-blur-md border",
+                submitStatus === "success"
+                  ? "bg-green-500/15 text-green-400 border-green-500/25"
+                  : "bg-red-500/15 text-red-400 border-red-500/25"
+              )}
+            >
+              {submitStatus === "success" ? (
+                <CheckCircle2 className="h-4 w-4 shrink-0" />
+              ) : (
+                <XCircle className="h-4 w-4 shrink-0" />
+              )}
+              {submitStatus === "success"
+                ? "Message sent successfully! I’ll get back to you soon."
+                : "Failed to send. Please email me directly instead."}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     <SectionWrapper id="contact" className={compact ? "pb-16" : "pb-32"}>
       <SectionHeader
         label="Contact"
@@ -215,11 +278,14 @@ export function ContactSection() {
                     </span>
                   )}
                 </Button>
+
               </form>
+
             </GlassCard>
           </motion.div>
         </div>
       </div>
     </SectionWrapper>
+    </>
   )
 }

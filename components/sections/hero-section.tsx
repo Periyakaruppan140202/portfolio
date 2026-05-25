@@ -28,17 +28,28 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left content */}
           <div className="text-center lg:text-left">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-lg md:text-xl text-muted-foreground mb-3"
+            >
+              Hey there <span className="inline-block animate-[wave_1.5s_ease-in-out_infinite]">👋</span>
+            </motion.p>
+
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance"
             >
-              <span className="text-foreground">Building </span>
+              <span className="text-foreground">I&apos;m </span>
+              <span className="text-gradient">Periyakaruppan</span>
+              <span className="text-foreground">, I build </span>
               <span className="text-gradient">Secure, Scalable</span>
-              <span className="text-foreground"> and </span>
+              <span className="text-foreground"> & </span>
               <span className="text-gradient">Intelligent</span>
-              <span className="text-foreground"> Software Systems.</span>
+              <span className="text-foreground"> Systems.</span>
             </motion.h1>
 
             <motion.p
@@ -58,7 +69,7 @@ export function HeroSection() {
             >
               <Button
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 h-12 text-base font-medium"
+                className="bg-primary text-primary-foreground hover:bg-primary/80 hover:scale-105 hover:shadow-lg hover:shadow-primary/25 active:scale-95 rounded-full px-8 h-12 text-base font-medium transition-all duration-200"
                 onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
               >
                 Explore My Journey
@@ -68,7 +79,7 @@ export function HeroSection() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="rounded-full px-8 h-12 text-base font-medium border-border bg-transparent hover:bg-white/5"
+                className="rounded-full px-8 h-12 text-base font-medium border-border bg-transparent hover:bg-white/10 hover:scale-105 hover:shadow-lg hover:border-white/20 active:scale-95 transition-all duration-200"
               >
                 <a href={personalInfo.resumeUrl} download="Periyakaruppan-Nagappan-Resume.pdf">
                   <Download className="mr-2 h-4 w-4" />
@@ -109,7 +120,7 @@ function FloatingProfileCard() {
       <div className="relative glass-strong rounded-3xl p-8 shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
         <div className="relative z-10">
           {/* Avatar */}
-          <div className="relative mx-auto mb-6 h-28 w-28 overflow-hidden rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-background bg-gradient-to-br from-primary/40 to-accent/40">
+          <div className="relative mx-auto mb-6 h-36 w-36 overflow-hidden rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-background bg-gradient-to-br from-primary/40 to-accent/40">
             {avatarOk ? (
               <img
                 src={personalInfo.avatar}
@@ -127,9 +138,8 @@ function FloatingProfileCard() {
           {/* Info */}
           <div className="text-center">
             <h3 className="text-xl font-semibold text-foreground">{personalInfo.name}</h3>
-            <p className="mt-1 text-muted-foreground">{personalInfo.title}</p>
-            
-            <div className="mt-4 flex items-center justify-center gap-4">
+
+            <div className="mt-3 flex items-center justify-center gap-4">
               <StatusDot status="available" label="Open to work" />
             </div>
           </div>
@@ -138,7 +148,7 @@ function FloatingProfileCard() {
           <div className="mt-6 grid grid-cols-3 gap-4 rounded-xl bg-white/[0.02] p-4">
             <div className="text-center">
               <span className="text-xl font-bold text-gradient">3+</span>
-              <p className="text-xs text-muted-foreground">Years</p>
+              <p className="text-xs text-muted-foreground">Yrs Work Exp</p>
             </div>
             <div className="text-center border-x border-border/50">
               <span className="text-xl font-bold text-gradient">5+</span>

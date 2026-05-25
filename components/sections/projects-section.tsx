@@ -1,13 +1,14 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useRef, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect, useCallback } from "react"
+import Image from "next/image"
 import { SectionWrapper, SectionHeader, TechBadge } from "@/components/ui/glass-elements"
 import { projects } from "@/lib/data"
-import { ArrowUpRight, Github, ExternalLink, Lightbulb, Zap, Target } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ArrowUpRight, Github, ExternalLink, Lightbulb, Zap, Target, Expand } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCompact } from "@/components/providers/compact-mode-provider"
+import { ImageLightbox } from "@/components/ui/image-lightbox"
 
 const categories = ["All", "AI / ML", "Full Stack"]
 
@@ -52,7 +53,7 @@ export function ProjectsSection() {
         ))}
       </motion.div>
 
-      {/* Projects grid - simplified layout without parallax */}
+      {/* Projects grid */}
       <div className={compact ? "space-y-8" : "space-y-16"}>
         {filteredProjects.map((project, index) => (
           <ProjectCard key={project.id} project={project} index={index} compact={compact} />
@@ -73,11 +74,89 @@ interface Project {
   technologies: string[]
   github?: string
   demo?: string
+  images?: string[]
   featured: boolean
 }
 
-function ProjectCard({ project, index, compact }: { project: Project; index: number; compact: boolean }) {
+function ProjectImageCarousel({ images, compact, onImageClick }: { images: string[]; compact: boolean; onImageClick?: (index: number) => void }) {
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    if (images.length <= 1) return
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % images.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [images.length])
+
   return (
+    <>
+      {images.map((src, i) => (
+        <div
+          key={src}
+          className={cn(
+            "absolute inset-0 transition-opacity duration-1000 ease-in-out",
+            i === activeIndex ? "opacity-100" : "opacity-0"
+          )}
+          onClick={(e) => {
+            if (onImageClick) {
+              e.stopPropagation()
+              onImageClick(activeIndex)
+            }
+          }}
+        >
+          <Image
+            src={src}
+            alt=""
+            fill
+            className="object-cover object-top"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={i === 0}
+          />
+        </div>
+      ))}
+      {/* Dots indicator */}
+      {images.length > 1 && (
+        <div className={cn("absolute z-10 flex gap-1.5", compact ? "top-2 right-2" : "top-4 right-4")}>
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={(e) => { e.stopPropagation(); setActiveIndex(i) }}
+              className={cn(
+                "rounded-full transition-all duration-300",
+                compact ? "h-1.5 w-1.5" : "h-2 w-2",
+                i === activeIndex
+                  ? "bg-white w-4"
+                  : "bg-white/40 hover:bg-white/70"
+              )}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  )
+}
+
+function ProjectCard({ project, index, compact }: { project: Project; index: number; compact: boolean }) {
+  const hasImages = project.images && project.images.length > 0
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(0)
+
+  const openLightbox = (imgIndex: number) => {
+    setLightboxIndex(imgIndex)
+    setLightboxOpen(true)
+  }
+
+  return (
+    <div>
+    {hasImages && (
+      <ImageLightbox
+        images={project.images!}
+        initialIndex={lightboxIndex}
+        open={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+      />
+    )}
     <motion.div
       initial={{ opacity: 0, y: compact ? 15 : 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -90,31 +169,72 @@ function ProjectCard({ project, index, compact }: { project: Project; index: num
       )}
     >
       {/* Project preview / Visual */}
-      <div className="relative group direction-ltr">
-        <div className={cn("relative overflow-hidden glass", compact ? "aspect-[16/9] rounded-xl" : "aspect-[16/10] rounded-2xl")}>
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5" />
-          <div className={cn("absolute", compact ? "top-2 left-2" : "top-4 left-4")}>
+      <div className="relative direction-ltr">
+        <div className={cn(
+          "relative overflow-hidden glass",
+          compact ? "aspect-[16/9] rounded-xl" : "aspect-[16/10] rounded-2xl",
+          hasImages && "cursor-pointer",
+          "hover:[&_img]:scale-105 [&_img]:transition-transform [&_img]:duration-700"
+        )}
+          onClick={() => hasImages && openLightbox(0)}
+        >
+          {/* Background — gradient fallback or images */}
+          {hasImages ? (
+            <ProjectImageCarousel images={project.images!} compact={compact} onImageClick={openLightbox} />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5" />
+          )}
+
+          {/* Dark gradient at bottom for readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 z-[1]" />
+
+          {/* Category badge */}
+          <div className={cn("absolute z-10", compact ? "top-2 left-2" : "top-4 left-4")}>
             <span className={cn("inline-flex items-center gap-1.5 rounded-full bg-black/40 backdrop-blur-md font-medium text-white", compact ? "px-2 py-1 text-[10px]" : "px-3 py-1.5 text-xs")}>
               {project.category}
             </span>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className={cn("absolute left-4 right-4 flex gap-3 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300", compact ? "bottom-2" : "bottom-4")}>
+
+          {/* Expand hint */}
+          {hasImages && (
+            <div className={cn("absolute z-10 opacity-0 hover:opacity-100 transition-opacity duration-300", compact ? "top-2 right-2" : "top-4 right-4")}>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm text-white/80">
+                <Expand className="h-4 w-4" />
+              </span>
+            </div>
+          )}
+
+          {/* Action buttons — always visible */}
+          <div className={cn("absolute left-4 right-4 flex gap-3 z-10", compact ? "bottom-2" : "bottom-4")} onClick={(e) => e.stopPropagation()}>
             {project.github && (
-              <Button size="sm" variant="secondary" className="rounded-full" asChild>
-                <a href={project.github} target="_blank" rel="noopener noreferrer">
-                  <Github className="h-4 w-4 mr-2" />
-                  Code
-                </a>
-              </Button>
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300",
+                  "bg-white/10 text-white/70 backdrop-blur-sm border border-white/10",
+                  "hover:bg-white hover:text-black hover:scale-105 hover:shadow-lg hover:border-transparent"
+                )}
+              >
+                <Github className="h-4 w-4" />
+                Code
+              </a>
             )}
             {project.demo && (
-              <Button size="sm" className="rounded-full bg-primary text-primary-foreground" asChild>
-                <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  Live Demo
-                </a>
-              </Button>
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300",
+                  "bg-white/10 text-white/70 backdrop-blur-sm border border-white/10",
+                  "hover:bg-primary hover:text-white hover:scale-105 hover:shadow-lg hover:border-transparent"
+                )}
+              >
+                <ExternalLink className="h-4 w-4" />
+                Live Demo
+              </a>
             )}
           </div>
         </div>
@@ -146,28 +266,9 @@ function ProjectCard({ project, index, compact }: { project: Project; index: num
             </TechBadge>
           ))}
         </div>
-
-        {/* CTA buttons */}
-        <div className={cn("flex pt-2", compact ? "gap-3" : "gap-4")}>
-          {project.github && (
-            <Button variant="outline" className="rounded-full" size={compact ? "sm" : "default"} asChild>
-              <a href={project.github} target="_blank" rel="noopener noreferrer">
-                <Github className="h-4 w-4 mr-2" />
-                View Code
-              </a>
-            </Button>
-          )}
-          {project.demo && (
-            <Button className="rounded-full bg-primary text-primary-foreground" size={compact ? "sm" : "default"} asChild>
-              <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                Live Demo
-                <ArrowUpRight className="h-4 w-4 ml-2" />
-              </a>
-            </Button>
-          )}
-        </div>
       </div>
     </motion.div>
+    </div>
   )
 }
 

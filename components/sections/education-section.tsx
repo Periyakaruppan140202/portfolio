@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { SectionWrapper, SectionHeader, GlassCard, TechBadge } from "@/components/ui/glass-elements"
 import { education } from "@/lib/data"
-import { GraduationCap, Trophy, BookOpen, Star } from "lucide-react"
+import { GraduationCap, Trophy, BookOpen, Star, Award } from "lucide-react"
 import { useCompact } from "@/components/providers/compact-mode-provider"
 import { cn } from "@/lib/utils"
 
@@ -61,7 +61,10 @@ export function EducationSection() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className={cn("glass rounded-xl text-center", compact ? "p-3 min-w-[80px]" : "p-4 min-w-[100px]")}
                   >
-                    <span className={cn("font-bold text-gradient", compact ? "text-2xl" : "text-3xl")}>{education.cgpa}</span>
+                    <div className="flex items-center justify-center gap-1 whitespace-nowrap">
+                      <Award className={compact ? "h-4 w-4 text-primary" : "h-5 w-5 text-primary"} />
+                      <span className={cn("font-bold text-foreground", compact ? "text-lg" : "text-xl")}>{education.cgpa}</span>
+                    </div>
                     <p className="text-xs text-muted-foreground mt-1">CGPA</p>
                   </motion.div>
                   <motion.div

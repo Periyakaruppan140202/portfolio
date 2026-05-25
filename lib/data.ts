@@ -9,7 +9,7 @@ export const personalInfo = {
   name: "Periyakaruppan Nagappan",
   title: "Member Technical Staff",
   tagline: "Building Secure, Scalable and Intelligent Software Systems.",
-  subtitle: "Member Technical Staff at Zoho | Academic Topper | Full Stack Developer",
+  subtitle: "Member Technical Staff @ Zoho | Full Stack Developer",
   email: "periyakaruppannagappan2020@gmail.com",
   workEmail: "periyakaruppan.nn@zohocorp.com",
   phone: "+91 8939088759",
@@ -102,6 +102,8 @@ export const projects = [
     solution: "Developed a machine learning-based prediction model using Random Forest Classifier, integrated with Flask and hosted on IBM Cloud for faster and accurate early detection.",
     impact: "Achieved 99.16% accuracy by optimizing data preprocessing techniques including handling missing values and feature selection.",
     technologies: ["IBM Cloud", "IBM Watson Studio", "Scikit-learn", "Random Forest", "Python", "Flask", "MySQL", "JIRA"],
+    github: "https://github.com/Periyakaruppan140202/IBM-CKD",
+    images: ["/projects/IBM-CKD/ibm-ckd-form.png", "/projects/IBM-CKD/ibm-ckd-result.png"],
     featured: true,
   },
   {
@@ -113,6 +115,8 @@ export const projects = [
     solution: "Built a web-based system using React.js for alumni search and registration, with MongoDB for flexible data storage and WebSockets for real-time communication.",
     impact: "Enabled secure alumni management with efficient search capabilities, event postings, and peer communication features.",
     technologies: ["React.js", "MongoDB", "Node.js", "Express.js", "WebSockets"],
+    github: "https://github.com/Periyakaruppan140202/alumni-tracker",
+    images: ["/projects/alumni-tracker/alumni-tracker-dashboard.png", "/projects/alumni-tracker/alumni-tracker-records.png"],
     featured: true,
   },
   {
@@ -124,6 +128,8 @@ export const projects = [
     solution: "Built fully responsive application using Next.js with SSR for SEO, NextAuth for Google authentication, Stripe for payments with webhooks, and Redux for state management.",
     impact: "Achieved seamless cross-device experience with improved SEO, secure authentication, and reliable real-time order management.",
     technologies: ["Next.js", "React.js", "Redux", "Stripe", "Webhooks", "Cloud Firestore", "NextAuth", "Tailwind CSS"],
+    github: "https://github.com/Periyakaruppan140202/shopify",
+    images: ["/projects/shopify/shopify.png", "/projects/shopify/shopify-cart.png"],
     featured: true,
   },
   {
@@ -135,6 +141,8 @@ export const projects = [
     solution: "Developed a solution allowing direct form uploads and Excel data transfer, with interactive Chart.js visualizations for actionable student insights.",
     impact: "Provided teachers in rural areas with accessible, responsive platform for data-driven decision making across all devices.",
     technologies: ["Bootstrap", "Chart.js", "MongoDB", "Flask", "Figma"],
+    github: "https://github.com/Periyakaruppan140202/cfg-hackathon",
+    images: ["/projects/cfg-hackathon/cfg-hackathon-dashboard.png", "/projects/cfg-hackathon/cfg-hackathon.png"],
     featured: false,
   },
 ]
@@ -142,9 +150,9 @@ export const projects = [
 export const publication = {
   title: "Design and Development of Automatic Call Handling (ACH) Framework",
   abstract: "This research presents a mobile application prototype that detects incoming calls, determines user speed using real-time GPS tracking, and intelligently blocks or allows calls based on emergency priority to minimize driver distraction.",
-  journal: "Conference Paper",
-  year: 2023,
-  status: "Accepted",
+  journal: "Springer Nature • Conference Paper",
+  year: "NGNDAI 2025",
+  status: "Published",
   methodology: [
     "Real-time GPS tracking for speed detection",
     "Emergency priority classification algorithm",
@@ -248,7 +256,7 @@ export const awards = [
     id: 4,
     title: "Garrett STEM Merit Scholarship",
     organization: "Garrett Foundation",
-    year: 2021,
+    year: "2019-2023",
     description: "Awarded prestigious scholarship for academic excellence, selected as 1 of only 15 students from the entire college.",
   },
 ]

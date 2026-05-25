@@ -15,13 +15,13 @@ export function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: compact ? 0.3 : 0.6 }}
-          className={cn("flex flex-col md:flex-row items-center justify-between", compact ? "gap-2" : "gap-4")}
+          className={cn("flex flex-col items-center text-center", compact ? "gap-1" : "gap-2")}
         >
-          <p className={cn("text-muted-foreground", compact ? "text-xs" : "text-sm")}>
-            © {new Date().getFullYear()} All rights reserved.
-          </p>
           <p className={cn("flex items-center gap-2 text-muted-foreground", compact ? "text-xs" : "text-sm")}>
-            Crafted with <Heart className={cn("text-red-500 fill-red-500", compact ? "h-3 w-3" : "h-4 w-4")} /> using Next.js & Framer Motion
+            Crafted with <Heart className={cn("text-red-500 fill-red-500", compact ? "h-3 w-3" : "h-4 w-4")} /> by Periyakaruppan Nagappan
+          </p>
+          <p className={cn("text-muted-foreground", compact ? "text-xs" : "text-sm")}>
+            © 2026
           </p>
         </motion.div>
       </div>
