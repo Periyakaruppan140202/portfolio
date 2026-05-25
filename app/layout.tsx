@@ -3,6 +3,8 @@ import { Inter, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ""
+
 const inter = Inter({ 
   subsets: ["latin"],
   variable: "--font-inter",
@@ -16,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Periyakaruppan's Portfolio",
   icons: {
-    icon: '/favicon.svg',
+    icon: `${basePath}/favicon.svg`,
   },
   description: 'Member Technical Staff at Zoho | Rank 1 | Full Stack Developer. Building secure, scalable and intelligent software systems.',
   keywords: ['Periyakaruppan Nagappan', 'Software Engineer', 'Full Stack Developer', 'Zoho', 'Java', 'React', 'Node.js', 'PostgreSQL'],

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState, useCallback, useEffect } from "react"
 import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, withBasePath } from "@/lib/utils"
 
 interface ImageLightboxProps {
   images: string[]
@@ -95,7 +95,7 @@ export function ImageLightbox({ images, initialIndex = 0, open, onClose }: Image
             onClick={(e) => e.stopPropagation()}
           >
             <Image
-              src={images[activeIndex]}
+              src={withBasePath(images[activeIndex])}
               alt=""
               fill
               className="object-contain rounded-xl"

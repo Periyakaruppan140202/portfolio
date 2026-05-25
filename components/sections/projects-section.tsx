@@ -6,7 +6,7 @@ import Image from "next/image"
 import { SectionWrapper, SectionHeader, TechBadge } from "@/components/ui/glass-elements"
 import { projects } from "@/lib/data"
 import { ArrowUpRight, Github, ExternalLink, Lightbulb, Zap, Target, Expand } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, withBasePath } from "@/lib/utils"
 import { useCompact } from "@/components/providers/compact-mode-provider"
 import { ImageLightbox } from "@/components/ui/image-lightbox"
 
@@ -106,7 +106,7 @@ function ProjectImageCarousel({ images, compact, onImageClick }: { images: strin
           }}
         >
           <Image
-            src={src}
+            src={withBasePath(src)}
             alt=""
             fill
             className="object-cover object-top"
