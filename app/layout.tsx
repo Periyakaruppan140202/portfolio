@@ -14,7 +14,10 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Periyakaruppan Nagappan | Member Technical Staff at Zoho',
+  title: "Periyakaruppan's Portfolio",
+  icons: {
+    icon: '/favicon.svg',
+  },
   description: 'Member Technical Staff at Zoho | Rank 1 | Full Stack Developer. Building secure, scalable and intelligent software systems.',
   keywords: ['Periyakaruppan Nagappan', 'Software Engineer', 'Full Stack Developer', 'Zoho', 'Java', 'React', 'Node.js', 'PostgreSQL'],
   authors: [{ name: 'Periyakaruppan Nagappan' }],
