@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true"
-const repoName = "/portfolio"
+const hasCustomDomain = process.env.CUSTOM_DOMAIN === "true"
 
 const nextConfig = {
   typescript: {
@@ -12,11 +12,13 @@ const nextConfig = {
   },
   ...(isGitHubPages && {
     output: "export",
-    basePath: repoName,
-    assetPrefix: repoName,
-    env: {
-      NEXT_PUBLIC_BASE_PATH: repoName,
-    },
+    ...(!hasCustomDomain && {
+      basePath: "/portfolio",
+      assetPrefix: "/portfolio",
+      env: {
+        NEXT_PUBLIC_BASE_PATH: "/portfolio",
+      },
+    }),
   }),
 }
 
