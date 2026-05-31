@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://periyakaruppan.is-a.dev"),
   title: "Periyakaruppan's Portfolio",
   icons: {
     icon: `${basePath}/favicon.svg`,
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
+    url: 'https://periyakaruppan.is-a.dev',
     title: 'Periyakaruppan Nagappan | Software Engineer Portfolio',
     description: 'Member Technical Staff at Zoho | Rank 1 | Building Secure, Scalable and Intelligent Software Systems',
     siteName: 'Periyakaruppan Nagappan',
