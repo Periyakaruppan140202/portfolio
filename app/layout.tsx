@@ -32,11 +32,20 @@ export const metadata: Metadata = {
     title: 'Periyakaruppan Nagappan | Software Engineer Portfolio',
     description: 'Member Technical Staff at Zoho | Rank 1 | Building Secure, Scalable and Intelligent Software Systems',
     siteName: 'Periyakaruppan Nagappan',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Periyakaruppan Nagappan — Software Engineer Portfolio',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Periyakaruppan Nagappan | Software Engineer Portfolio',
     description: 'Member Technical Staff at Zoho | Building Secure, Scalable and Intelligent Software Systems',
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
