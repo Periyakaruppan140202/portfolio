@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: 'Periyakaruppan Nagappan',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://raw.githubusercontent.com/Periyakaruppan140202/portfolio/master/public/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Periyakaruppan Nagappan — Software Engineer Portfolio',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Periyakaruppan Nagappan | Software Engineer Portfolio',
     description: 'Member Technical Staff at Zoho | Building Secure, Scalable and Intelligent Software Systems',
-    images: ['/og-image.png'],
+    images: ['https://raw.githubusercontent.com/Periyakaruppan140202/portfolio/master/public/og-image.png'],
   },
   robots: {
     index: true,
